@@ -1,7 +1,12 @@
 #!/usr/bin/env python
-
+from __future__ import print_function
 import requests
-import examples
+from examples.ap_down_eg import ap_down_eg
+from examples.ap_flap_eg import ap_flap_eg
+from examples.border_dhcp_eg import border_dhcp_eg
+from examples.device_unreachable_eg import device_unreachable_eg
+from examples.swim_eg import swim_eg
+
 from argparse import ArgumentParser
 import logging
 
@@ -12,10 +17,14 @@ URL="https://localhost:9000"
 def send_request(data):
     headers={'content-type': 'application/json'}
     response = requests.post(url=URL, data=json.dumps(data), headers=headers,verify=False)
-    print response.status_code
+    print(response.status_code)
 
 if __name__ == "__main__":
-    valid_examples = [call for call in dir(examples) if not "__" in call]
+
+    # strange python2 thing, need to reference call outside of the comprehension, otherwise get
+    #RuntimeError: dictionary changed size during iteration
+    call = ""
+    valid_examples = [call for call in globals() if  "_eg" in call]
 
     parser = ArgumentParser(description='Select options.')
 
@@ -29,7 +38,7 @@ if __name__ == "__main__":
         logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
     logging.debug("valid examples:{}".format(", ".join(valid_examples)))
     if args.event in valid_examples:
-        print "Sending:{}".format(args.event)
-        send_request(getattr(examples, args.event))
+        print("Sending:{}".format(args.event))
+        send_request(locals()[args.event])
     else:
         print("Run with --event and a valid example.\nValid Examples:{}".format(", ".join(valid_examples)))
