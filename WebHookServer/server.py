@@ -5,7 +5,7 @@ from flask import request
 app = Flask(__name__)
 
 from webex_teams import post_message
-from gmail import send_mail
+#from gmail import send_mail
 
 
 def format_event(event):
