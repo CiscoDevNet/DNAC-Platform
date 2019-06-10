@@ -1,10 +1,11 @@
 #!/usr/bin/env python
+from __future__ import print_function
 from flask import Flask
 from flask import request
 app = Flask(__name__)
 
-#from webex_teams import post_message
-#from gmail import send_mail
+from webex_teams import post_message
+from gmail import send_mail
 
 
 def format_event(event):
@@ -37,10 +38,10 @@ def handle(event):
     print(message)
 
     # send to webex
-#    post_message("*******\n" + header + message)
+    post_message("*******\n" + header + message)
 
     # send an email
-#    send_mail(header,message)
+    #send_mail(header,message)
 
 @app.route('/', defaults={'path': ''}, methods=['GET','POST'])
 @app.route('/<path:path>', methods=["GET","PUT","POST","DELETE"])

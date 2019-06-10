@@ -10,6 +10,9 @@ url = "https://api.ciscospark.com/v1/messages"
 
 def post_message(message):
 
+    if AUTH == "Bearer XXXX":
+        print("No WebexTeams Token")
+        return
     payload = {"roomId" : ROOMID,"text" : "ALERT: " + message}
     headers = {
     'authorization': AUTH,
