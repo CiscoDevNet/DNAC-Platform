@@ -4,7 +4,10 @@ import json
 
 # hide the spark token
 sys.path.append(os.path.join(os.path.dirname(__file__), "config"))
-from spark_config import AUTH, ROOMID
+try:
+    from spark_config import AUTH, ROOMID
+except ModuleNotFoundError:
+    from dummy_spark_config import AUTH, ROOMID
 
 url = "https://api.ciscospark.com/v1/messages"
 
