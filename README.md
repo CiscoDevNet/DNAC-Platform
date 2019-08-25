@@ -41,6 +41,8 @@ Sending:device_unreachable_eg
 200
 
 ```
+NOTE: With the move to realtime notifcations, the schema for events has changed.  Any examples with a "new" string are real time
+examples.  The server will handle both.
 
 You can check the server logs to see the event being received.
 

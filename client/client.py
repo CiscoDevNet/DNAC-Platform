@@ -6,6 +6,7 @@ from examples.ap_flap_eg import ap_flap_eg
 from examples.border_dhcp_eg import border_dhcp_eg
 from examples.device_unreachable_eg import device_unreachable_eg
 from examples.swim_eg import swim_eg
+from examples.new_flap_eg import new_flap_eg
 
 from argparse import ArgumentParser
 import logging

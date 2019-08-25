@@ -8,7 +8,7 @@ from webex_teams import post_message
 #from gmail import send_mail
 
 
-def format_event(event):
+def old_format_event(event):
 
     header = 'Event:{}, Severity:{}, Category:{}\n'.format(event['title'],
                                                       event['severity'],
@@ -28,13 +28,25 @@ def format_event(event):
             message += " -{}\n".format(action['message'])
     return header, message
 
-def handle(event):
+def new_format_event(dnac,event):
+    header = 'Event:{}, Category:{}\n'.format(event['eventId'], event['category'])
+    message = '\n'.join([ '{}:{}'.format(k,v) for k,v in event['details'].items()])
+    if 'ciscoDnaEventLink' in event:
+        message += "\nEventURL: https://{}/{}".format(dnac,event['ciscoDnaEventLink'])
+    return header, message
+
+def format_event(dnac,event):
+    if 'title' in event:
+        return(old_format_event(event))
+    else:
+        return (new_format_event(dnac,event))
+def handle(dnac, event):
     '''
     handles and event.  Can send an email, or message to webex.
     :param event:
     :return:
     '''
-    header, message = format_event(event)
+    header, message = format_event(dnac, event)
     print(message)
 
     # send to webex
@@ -50,7 +62,10 @@ def get_all(path):
     if request.method == "POST":
         print (request.headers)
         print (request.json)
-        handle(request.json)
+        if request.json != {}:
+            handle(request.remote_addr, request.json)
+        else:
+            print("skipping - empty")
     return ("OK")
 
 if __name__ == '__main__':
