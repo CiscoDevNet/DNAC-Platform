@@ -6,6 +6,7 @@ import json
 sys.path.append(os.path.join(os.path.dirname(__file__), "config"))
 try:
     from spark_config import AUTH, ROOMID
+# one older code this is ImportError
 except ModuleNotFoundError:
     from dummy_spark_config import AUTH, ROOMID
 
