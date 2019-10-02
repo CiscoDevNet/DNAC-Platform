@@ -32,7 +32,11 @@ def new_format_event(dnac,event):
     header = 'Event:{}, Category:{}\n'.format(event['eventId'], event['category'])
     message = '\n'.join([ '{}:{}'.format(k,v) for k,v in event['details'].items()])
     if 'ciscoDnaEventLink' in event:
-        message += "\nEventURL: https://{}/{}".format(dnac,event['ciscoDnaEventLink'])
+        # check for https in the URL already
+        if "https" in event['ciscoDnaEventLink']:
+            message += "\nEventURL: {}".format(event['ciscoDnaEventLink'])
+        else:
+            message += "\nEventURL: https://{}/{}".format(dnac,event['ciscoDnaEventLink'])
     return header, message
 
 def format_event(dnac,event):
